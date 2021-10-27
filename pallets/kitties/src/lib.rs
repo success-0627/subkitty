@@ -339,6 +339,13 @@ pub mod pallet {
 			}
 		}
 
+		pub fn ower_of(kitty_id: &T::Hash) -> Result<T::AccountId, Error<T>> {
+			match Self::kitties(kitty_id) {
+				Some(kitty) => Ok(kitty.owner),
+				None => Err(Error::<T>::KittyNotExist),
+			}
+		}
+
 		#[transactional]
 		pub fn transfer_kitty_to(kitty_id: &T::Hash, to: &T::AccountId) -> Result<(), Error<T>> {
 			let mut kitty = Self::kitties(&kitty_id).ok_or(Error::<T>::KittyNotExist)?;

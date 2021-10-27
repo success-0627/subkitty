@@ -1,6 +1,6 @@
 use node_kitties_runtime::{
-	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature, SudoConfig,
-	SystemConfig, WASM_BINARY,
+	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature,
+	SubstrateKittiesConfig, SudoConfig, SystemConfig, WASM_BINARY,
 };
 use sc_service::ChainType;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
@@ -140,15 +140,17 @@ fn testnet_genesis(
 			// Configure endowed accounts with initial balance of 1 << 60.
 			balances: endowed_accounts.iter().cloned().map(|k| (k, 1 << 60)).collect(),
 		},
-		aura: AuraConfig {
-			authorities: initial_authorities.iter().map(|x| (x.0.clone())).collect(),
-		},
+		aura: AuraConfig { authorities: initial_authorities.iter().map(|x| (x.0.clone())).collect() },
 		grandpa: GrandpaConfig {
 			authorities: initial_authorities.iter().map(|x| (x.1.clone(), 1)).collect(),
 		},
 		sudo: SudoConfig {
 			// Assign network admin rights.
 			key: root_key,
+		},
+		substrate_kitties: SubstrateKittiesConfig {
+			// Assign initial Kitties
+			kitties: vec![],
 		},
 	}
 }
